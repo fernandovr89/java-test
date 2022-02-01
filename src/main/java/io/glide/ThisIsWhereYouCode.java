@@ -1,6 +1,5 @@
 package io.glide;
 
-
 /**
  * This is where you have to code.
  *
@@ -17,7 +16,15 @@ public class ThisIsWhereYouCode {
      *         extension without the period otherwise
      */
     public String getFileNameExtension(String filename) {
-        // XXX implement me !
+        String extension = "";
+        if (filename == null || filename.length() == 0)
+            return null;
+
+        int index = filename.lastIndexOf('.');
+        if (index >= 0) {
+            extension = filename.substring(index + 1);
+            return extension;
+        }
         return null;
     }
 
@@ -28,8 +35,24 @@ public class ThisIsWhereYouCode {
      * @return null if input is null and the longest string otherwise
      */
     public String getLongestString(Object[] array) {
-        // XXX implement me !
-        return null;
+        if (array == null || array.length == 0)
+            return null;
+
+        String longestString = "";
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) {
+                if (array[i] instanceof Object[]) {
+                    Object[] array_i = (Object[]) array[i];
+                    if (array_i.length > 0)
+                        longestString = this.getLongestString(array_i);
+                } else if (array[i] instanceof String) {
+                    if (array[i].toString().length() > longestString.length()) {
+                        longestString = array[i].toString();
+                    }
+                }
+            }
+        }
+        return longestString;
     }
 
     /**
@@ -40,8 +63,22 @@ public class ThisIsWhereYouCode {
      * @return true if both arrays contains the same values
      */
     public boolean areArraysEquals(String[] array1, String[] array2) {
-        // XXX implement me !
-        return false;
+        if (array1 == array2)
+            return true;
+
+        if (array1 == null || array2 == null)
+            return false;
+
+        if (array1.length != array2.length)
+            return false;
+
+        for (int i = 0; i < array1.length; i++) {
+            String string1 = array1[i];
+            String string2 = array2[i];
+            if (string1 == null || string2 == null || !string1.equals(string2))
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -54,8 +91,28 @@ public class ThisIsWhereYouCode {
      * @return the compressed String or null if the input is null
      */
     public String getCompressedString(String input) {
-        // XXX implement me !
-        return null;
+        if (input == null)
+            return null;
+        String output = "";
+        char[] charArray = input.toCharArray();
+        int count = 1;
+        for (int i = 0; i < charArray.length; i++) {
+            for (int j = i + 1; j < charArray.length; j++) {
+                if (charArray[i] == charArray[j] && charArray[i] != Character.MIN_VALUE) {
+                    count++;
+                    charArray[j] = Character.MIN_VALUE;
+                } else {
+                    break;
+                }
+            }
+            if (count > 1) {
+                output = output + count + charArray[i];
+            } else if (charArray[i] != Character.MIN_VALUE) {
+                output = output + charArray[i];
+            }
+            count = 1;
+        }
+        return output;
     }
 
     /**
@@ -68,8 +125,28 @@ public class ThisIsWhereYouCode {
      * @return the sorted array
      */
     public String[] getSortedArray(String[] array) {
-        // XXX implement me !
-        return null;
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return null;
+        String[] compressedString = new String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            compressedString[i] = this.getCompressedString(array[i]);
+        }
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array.length - 1 - i; j++) {
+                if ((compressedString[j].compareTo(compressedString[j + 1])) > 0) {
+                    String compressedToSwap = compressedString[j];
+                    compressedString[j] = compressedString[j + 1];
+                    compressedString[j + 1] = compressedToSwap;
+                    String originalToSwap = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = originalToSwap;
+                }
+            }
+            ;
+        }
+        return array;
     }
 
 }
