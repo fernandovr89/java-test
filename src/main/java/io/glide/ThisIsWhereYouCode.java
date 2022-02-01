@@ -144,7 +144,6 @@ public class ThisIsWhereYouCode {
                     array[j + 1] = originalToSwap;
                 }
             }
-            ;
         }
         return array;
     }
